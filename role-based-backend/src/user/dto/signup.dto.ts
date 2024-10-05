@@ -1,16 +1,24 @@
 import { IsEmail, IsNotEmpty, IsString, registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, MinLength, IsStrongPassword, ValidateIf } from 'class-validator';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user.service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 @ValidatorConstraint({ async: true })
 export class IsUniqueConstraint implements ValidatorConstraintInterface {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
-  async validate(value: any): Promise<boolean> {
+  async validate(value: string): Promise<boolean> {
+
+    console.log('UserService:', this.userService); // Log to check if UserService is injected
+
+
     const user = await this.userService.findByUsername(value);
-    // return !user;
-    return user === null || user === undefined;
+
+    console.log('UserService:', this.userService); // Log to check if UserService is injected
+
+  
+    return !user;
+    //return user === null || user === undefined;
   }
 
   defaultMessage(): string {

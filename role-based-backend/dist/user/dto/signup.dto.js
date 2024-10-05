@@ -18,8 +18,10 @@ let IsUniqueConstraint = class IsUniqueConstraint {
         this.userService = userService;
     }
     async validate(value) {
+        console.log('UserService:', this.userService);
         const user = await this.userService.findByUsername(value);
-        return user === null || user === undefined;
+        console.log('UserService:', this.userService);
+        return !user;
     }
     defaultMessage() {
         return 'Username is already taken';

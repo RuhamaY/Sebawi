@@ -11,7 +11,7 @@ export class UserService {
     //     throw new Error('Method not implemented.');
     // }
     constructor(
-        @InjectModel('user') private readonly userModel: Model<User>,
+        @InjectModel(User.name) private readonly userModel: Model<User>,
     ) {}
 
     async findByUsername(username: string): Promise<User> {
@@ -60,7 +60,7 @@ export class UserService {
         }
 
         user.username = username;
-        
+
         if (password) {
             user.password = password;
         }
