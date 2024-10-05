@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 export enum UserRole {
   Admin = 'admin',
@@ -9,14 +10,14 @@ export enum UserRole {
 @Schema({
   timestamps: true,
 })
-export class User {
-  @Prop()
+export class User extends Document {
+  @Prop({ required: true })
   name: string;
 
-  @Prop({ unique: [true, 'Duplicate username entered'] })
+  @Prop({ unique: true, required: true })
   username: string;
 
-  @Prop({ unique: [true, 'Duplicate email entered'] })
+  @Prop({ unique: true, required: true})
   email: string;
 
   @Prop()
@@ -24,7 +25,37 @@ export class User {
 
   @Prop()
   role: UserRole;
-  static _id: any;
+
+  // Additional fields for Agency users only
+  @Prop({
+    required: function () {
+      return this.role === UserRole.Agency;
+    },
+  })
+  cause?: string;
+
+  @Prop({
+    required: function () {
+      return this.role === UserRole.Agency;
+    },
+  })
+  date?: string;
+
+  @Prop({
+    required: function () {
+      return this.role === UserRole.Agency;
+    },
+  })
+  time?: string;
+
+  @Prop({
+    required: function () {
+      return this.role === UserRole.Agency;
+    },
+  })
+  serviceLocation?: string;
+
+  static _id: any;  // Mongoose provides the _id property automatically
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

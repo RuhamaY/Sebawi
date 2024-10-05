@@ -35,8 +35,8 @@ let UserController = class UserController {
         await this.userService.updateUserRole(userId, newRole);
         return { message: 'Role updated successfully' };
     }
-    async updateUserProfile(userId, username, password) {
-        await this.userService.updateUserProfile(userId, username, password);
+    async updateUserProfile(userId, username, password, cause, date, time, serviceLocation) {
+        await this.userService.updateUserProfile(userId, username, password, cause, date, time, serviceLocation);
         return { message: 'Profile updated successfully' };
     }
     async deleteUserAccount(userId) {
@@ -82,8 +82,12 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)('username')),
     __param(2, (0, common_1.Body)('password')),
+    __param(3, (0, common_1.Body)('cause')),
+    __param(4, (0, common_1.Body)('date')),
+    __param(5, (0, common_1.Body)('time')),
+    __param(6, (0, common_1.Body)('serviceLocation')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [String, String, String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateUserProfile", null);
 __decorate([

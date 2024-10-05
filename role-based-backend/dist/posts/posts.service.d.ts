@@ -23,6 +23,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
+/// <reference types="mongoose/types/inferrawdoctype" />
 import { Posts } from './schemas/posts.schema';
 import mongoose, { Model } from 'mongoose';
 import { User } from 'src/user/schemas/user.schema';
@@ -44,6 +45,8 @@ export declare class PostsService {
     createPosts(createPostsDto: CreatePostsDto, user: User): Promise<Posts>;
     readPosts(): Promise<void | (mongoose.Document<unknown, {}, Posts> & Posts & {
         _id: mongoose.Types.ObjectId;
+    } & {
+        __v?: number;
     })[]>;
     findAll(query: any): Promise<Posts[]>;
     findById(id: string): Promise<Posts>;

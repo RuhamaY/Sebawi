@@ -13,4 +13,8 @@ export declare class SignUpDto {
     readonly email: string;
     readonly password: string;
     readonly role: string;
+    readonly cause?: string;
+    readonly date?: string;
+    readonly time?: string;
+    readonly serviceLocation?: string;
 }

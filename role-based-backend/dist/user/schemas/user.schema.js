@@ -11,25 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSchema = exports.User = exports.UserRole = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
 var UserRole;
 (function (UserRole) {
     UserRole["Admin"] = "admin";
     UserRole["User"] = "user";
     UserRole["Agency"] = "agency";
 })(UserRole || (exports.UserRole = UserRole = {}));
-let User = class User {
+let User = class User extends mongoose_2.Document {
 };
 exports.User = User;
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ unique: [true, 'Duplicate username entered'] }),
+    (0, mongoose_1.Prop)({ unique: true, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ unique: [true, 'Duplicate email entered'] }),
+    (0, mongoose_1.Prop)({ unique: true, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
@@ -40,6 +41,38 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: function () {
+            return this.role === UserRole.Agency;
+        },
+    }),
+    __metadata("design:type", String)
+], User.prototype, "cause", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: function () {
+            return this.role === UserRole.Agency;
+        },
+    }),
+    __metadata("design:type", String)
+], User.prototype, "date", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: function () {
+            return this.role === UserRole.Agency;
+        },
+    }),
+    __metadata("design:type", String)
+], User.prototype, "time", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: function () {
+            return this.role === UserRole.Agency;
+        },
+    }),
+    __metadata("design:type", String)
+], User.prototype, "serviceLocation", void 0);
 exports.User = User = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,

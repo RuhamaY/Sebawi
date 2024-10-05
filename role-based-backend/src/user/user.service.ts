@@ -6,12 +6,17 @@ import { Posts } from 'src/posts/schemas/posts.schema';
 
 @Injectable()
 export class UserService {
-    findByUsername(value: any) {
-        throw new Error('Method not implemented.');
-    }
+
+    // findByUsername(value: any) {
+    //     throw new Error('Method not implemented.');
+    // }
     constructor(
         @InjectModel('user') private readonly userModel: Model<User>,
-    ) { }
+    ) {}
+
+    async findByUsername(username: string): Promise<User> {
+        return this.userModel.findOne({username}).exec();
+    }
 
     async getAllUsers(): Promise<User[]> {
         const users = await this.userModel.find().exec();
@@ -20,7 +25,10 @@ export class UserService {
 
 
     async findById(id: String): Promise<User> {
-        const user = await this.userModel.findById(id)
+        const user = (await this.userModel.findById(id));
+        if(!user) {
+            throw new NotFoundException('User not found');
+        }
         return user
     }
 
@@ -45,16 +53,24 @@ export class UserService {
         return user.save();
     }
 
-    async updateUserProfile(userId: string, username: string, password: string): Promise<User> {
-        const user = await this.userModel.findById(userId).exec();
+    async updateUserProfile(userId: string, username: string, password: string, cause?: string, date?: string, time?: string, serviceLocation?: string): Promise<User> {
+        const user = await this.userModel.findById(userId);
         if (!user) {
             throw new NotFoundException('User not found');
         }
 
         user.username = username;
-
+        
         if (password) {
             user.password = password;
+        }
+
+        // Update agency-specific fields only if the user is an agency
+        if (user.role === UserRole.Agency) {
+            if (cause) user.cause = cause;
+            if (date) user.date = date;
+            if (time) user.time = time;
+            if (serviceLocation) user.serviceLocation = serviceLocation;
         }
 
         return user.save();
