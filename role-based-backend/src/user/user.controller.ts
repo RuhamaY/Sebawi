@@ -47,8 +47,12 @@ export class UserController {
         @Param('id') userId: string,
         @Body('username') username: string,
         @Body('password') password: string,
+        @Body('cause') cause?: string,
+        @Body('date') date?: string,
+        @Body('time') time?: string,
+        @Body('serviceLocation') serviceLocation?: string
     ): Promise<{ message: string }> {
-        await this.userService.updateUserProfile(userId, username, password);
+        await this.userService.updateUserProfile(userId, username, password, cause, date, time, serviceLocation);
         return { message: 'Profile updated successfully' };
     }   
 

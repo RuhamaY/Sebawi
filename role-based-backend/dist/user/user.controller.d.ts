@@ -11,7 +11,7 @@ export declare class UserController {
     updateUserRole(userId: string, newRole: UserRole): Promise<{
         message: string;
     }>;
-    updateUserProfile(userId: string, username: string, password: string): Promise<{
+    updateUserProfile(userId: string, username: string, password: string, cause?: string, date?: string, time?: string, serviceLocation?: string): Promise<{
         message: string;
     }>;
     deleteUserAccount(userId: string): Promise<{

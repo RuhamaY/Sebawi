@@ -18,18 +18,21 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const user_schema_1 = require("./schemas/user.schema");
 let UserService = class UserService {
-    findByUsername(value) {
-        throw new Error('Method not implemented.');
-    }
     constructor(userModel) {
         this.userModel = userModel;
+    }
+    async findByUsername(username) {
+        return this.userModel.findOne({ username }).exec();
     }
     async getAllUsers() {
         const users = await this.userModel.find().exec();
         return users;
     }
     async findById(id) {
-        const user = await this.userModel.findById(id);
+        const user = (await this.userModel.findById(id));
+        if (!user) {
+            throw new common_1.NotFoundException('User not found');
+        }
         return user;
     }
     async deleteUser(userId) {
@@ -49,14 +52,24 @@ let UserService = class UserService {
         user.role = newRole;
         return user.save();
     }
-    async updateUserProfile(userId, username, password) {
-        const user = await this.userModel.findById(userId).exec();
+    async updateUserProfile(userId, username, password, cause, date, time, serviceLocation) {
+        const user = await this.userModel.findById(userId);
         if (!user) {
             throw new common_1.NotFoundException('User not found');
         }
         user.username = username;
         if (password) {
             user.password = password;
+        }
+        if (user.role === user_schema_1.UserRole.Agency) {
+            if (cause)
+                user.cause = cause;
+            if (date)
+                user.date = date;
+            if (time)
+                user.time = time;
+            if (serviceLocation)
+                user.serviceLocation = serviceLocation;
         }
         return user.save();
     }
@@ -70,7 +83,7 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('user')),
+    __param(0, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
     __metadata("design:paramtypes", [mongoose_2.Model])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

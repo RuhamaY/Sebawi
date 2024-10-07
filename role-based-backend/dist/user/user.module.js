@@ -13,6 +13,7 @@ const user_controller_1 = require("./user.controller");
 const auth_module_1 = require("../auth/auth.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_schema_1 = require("./schemas/user.schema");
+const signup_dto_1 = require("./dto/signup.dto");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
@@ -20,10 +21,11 @@ exports.UserModule = UserModule = __decorate([
     (0, common_1.Module)({
         imports: [
             auth_module_1.AuthModule,
-            mongoose_1.MongooseModule.forFeature([{ name: 'user', schema: user_schema_1.UserSchema }])
+            mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }])
         ],
-        providers: [user_service_1.UserService],
-        controllers: [user_controller_1.UserController]
+        providers: [user_service_1.UserService, signup_dto_1.IsUniqueConstraint],
+        controllers: [user_controller_1.UserController],
+        exports: [user_service_1.UserService]
     })
 ], UserModule);
 //# sourceMappingURL=user.module.js.map

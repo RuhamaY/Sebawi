@@ -18,8 +18,10 @@ let IsUniqueConstraint = class IsUniqueConstraint {
         this.userService = userService;
     }
     async validate(value) {
+        console.log('UserService:', this.userService);
         const user = await this.userService.findByUsername(value);
-        return user === null || user === undefined;
+        console.log('UserService:', this.userService);
+        return !user;
     }
     defaultMessage() {
         return 'Username is already taken';
@@ -54,16 +56,17 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
+    IsUnique({ message: 'Username already taken' }),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "username", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEmail)({ message: 'Please enter correct email' }),
+    (0, class_validator_1.IsEmail)({}, { message: 'Please enter correct email' }),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(6),
+    (0, class_validator_1.MinLength)(6, { message: 'Password must be at least 6 characters long' }),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "password", void 0);
 __decorate([
@@ -71,4 +74,28 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], SignUpDto.prototype, "role", void 0);
+__decorate([
+    (0, class_validator_1.ValidateIf)((o) => o.role === 'agency'),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Cause is required for agencies' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "cause", void 0);
+__decorate([
+    (0, class_validator_1.ValidateIf)((o) => o.role === 'agency'),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Date is required for agencies' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "date", void 0);
+__decorate([
+    (0, class_validator_1.ValidateIf)((o) => o.role === 'agency'),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Time is required for agencies' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "time", void 0);
+__decorate([
+    (0, class_validator_1.ValidateIf)((o) => o.role === 'agency'),
+    (0, class_validator_1.IsNotEmpty)({ message: 'Service location is required for agencies' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SignUpDto.prototype, "serviceLocation", void 0);
 //# sourceMappingURL=signup.dto.js.map
