@@ -22,6 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
+/// <reference types="mongoose/types/inferrawdoctype" />
 import { Document } from 'mongoose';
 import { Posts } from "src/posts/schemas/posts.schema";
 import { User } from "src/user/schemas/user.schema";
@@ -33,6 +34,10 @@ export declare class Calendars {
 }
 export declare const CalendarsSchema: mongoose.Schema<Calendars, mongoose.Model<Calendars, any, any, any, Document<unknown, any, Calendars> & Calendars & {
     _id: mongoose.Types.ObjectId;
+} & {
+    __v?: number;
 }, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, Calendars, Document<unknown, {}, mongoose.FlatRecord<Calendars>> & mongoose.FlatRecord<Calendars> & {
     _id: mongoose.Types.ObjectId;
+} & {
+    __v?: number;
 }>;
