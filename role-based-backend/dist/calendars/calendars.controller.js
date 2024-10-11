@@ -35,6 +35,9 @@ let CalendarsController = class CalendarsController {
     findOne(id) {
         return this.calendarsService.findOne(+id);
     }
+    findAllByPost(postId) {
+        return this.calendarsService.findAllByPost(postId);
+    }
     update(id, updateCalendarDto) {
         return this.calendarsService.update(+id, updateCalendarDto);
     }
@@ -68,6 +71,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CalendarsController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Get)('post/:postId'),
+    __param(0, (0, common_1.Param)('postId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CalendarsController.prototype, "findAllByPost", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

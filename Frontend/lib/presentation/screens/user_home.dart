@@ -1,10 +1,10 @@
 import 'package:Sebawi/application/providers/home_provider.dart';
+import 'package:Sebawi/data/models/calendars.dart';
+import 'package:Sebawi/data/models/posts_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../application/providers/posts_provider.dart';
-import '../../data/models/calendars.dart';
-import '../../data/models/posts_model.dart';
 import '../../application/providers/calendar_provider.dart';
 import '../../data/services/api_path.dart';
 
@@ -34,9 +34,8 @@ class UserHomePage extends ConsumerWidget {
                   onSelected: (value) {
                     if (value == 'logout') {
                       SharedPreferenceService sharedPrefService =
-                      SharedPreferenceService();
-                      sharedPrefService.writeCache(
-                          key: "token", value: "");
+                          SharedPreferenceService();
+                      sharedPrefService.writeCache(key: "token", value: "");
                       context.go("/");
                     } else if (value == 'update_profile') {
                       context.go('/user_update');
@@ -44,48 +43,57 @@ class UserHomePage extends ConsumerWidget {
                   },
                   itemBuilder: (BuildContext context) {
                     return [
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'update_profile',
                         child: Row(
                           children: [
-                            Icon(Icons.edit, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text('Update Profile'),
+                            Icon(Icons.edit, color: Colors.green.shade800),
+                            const SizedBox(width: 8),
+                            const Text('Update Profile'),
                           ],
                         ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'logout',
                         child: Row(
                           children: [
-                            Icon(Icons.logout, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text('Logout'),
+                            Icon(Icons.logout, color: Colors.green.shade800),
+                            const SizedBox(width: 8),
+                            const Text('Logout'),
                           ],
                         ),
                       ),
                     ];
                   },
-                  icon: const Icon(Icons.settings),
-                  color: const Color.fromARGB(255, 124, 181, 127),
-                  iconSize: 27,
+                  icon: const Icon(Icons.account_circle),
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  iconSize: 30,
                 ),
               )
             ],
             bottom: TabBar(
               tabs: const [
                 Tab(
-                  child: Text(
-                    "Posts",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  child: Column(
+                    children: [
+                      Icon(Icons.list),
+                      Text(
+                      "Posts",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),],
+                  )
+
                 ),
                 Tab(
-                  child: Text(
-                    "My Calendar",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
+                    child: Column(
+                  children: [
+                    Icon(Icons.calendar_month_sharp),
+                    Text(
+                      "My Calendar",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                )),
               ],
               onTap: (index) {
                 if (index == 1) {
@@ -172,6 +180,7 @@ class UserHomePage extends ConsumerWidget {
 
 class CalendarItem extends ConsumerWidget {
   final Calendar calendar;
+
   const CalendarItem({required this.calendar, super.key});
 
   @override
@@ -226,10 +235,10 @@ class CalendarItem extends ConsumerWidget {
                 ),
               ],
             ),
-            leading: const Icon(
+            leading: Icon(
               Icons.calendar_today,
               size: 40,
-              color: Colors.green,
+              color: Colors.green.shade700,
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -254,6 +263,8 @@ class CalendarItem extends ConsumerWidget {
                   onPressed: () {
                     showDatePicker(
                       context: context,
+                      helpText: "Choose new date for volunteering",
+                      confirmText: "Update",
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
                       lastDate: DateTime(DateTime.now().year + 1),
@@ -295,7 +306,9 @@ class CalendarItem extends ConsumerWidget {
 class PostItem extends ConsumerWidget {
   final Post post;
   final bool isMyPost;
+
   const PostItem({required this.post, required this.isMyPost, super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeNotifier = ref.read(homeProvider);
@@ -370,13 +383,15 @@ class PostItem extends ConsumerWidget {
                           ),
                         ),
                         child: const Text(
-                          'Add To Calendar',
+                          'Sign Me Up!',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                         onPressed: () {
                           showDatePicker(
                             context: context,
+                            helpText: "Choose a date to volunteer",
+                            confirmText: "Done",
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
                             lastDate: DateTime(DateTime.now().year + 1),

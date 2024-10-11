@@ -4,7 +4,7 @@ import { IsEmpty, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { User } from 'src/user/schemas/user.schema';
 import { CreatePostsDto } from './create-posts.dto';
 
-export class UpdatePostsDto{
+export class UpdatePostsDto {
 
     @IsOptional()
     @IsNotEmpty()
@@ -15,12 +15,12 @@ export class UpdatePostsDto{
     @IsNotEmpty()
     @IsString()
     readonly description: string;
-    
+
     @IsOptional()
-    @IsNotEmpty() 
+    @IsNotEmpty()
     @IsString()
     readonly contact: string;
 
     @IsEmpty({ message: 'you can not pass user id' })
-    readonly user: User;
+    readonly user: string;
 }

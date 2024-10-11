@@ -26,7 +26,6 @@
 /// <reference types="mongoose/types/inferrawdoctype" />
 import { Posts } from './schemas/posts.schema';
 import mongoose, { Model } from 'mongoose';
-import { User } from 'src/user/schemas/user.schema';
 import { CreatePostsDto } from './dto/create-posts.dto';
 export interface MulterFile {
     fieldname: string;
@@ -42,13 +41,14 @@ export interface MulterFile {
 export declare class PostsService {
     private readonly postsModel;
     constructor(postsModel: Model<Posts>);
-    createPosts(createPostsDto: CreatePostsDto, user: User): Promise<Posts>;
+    createPosts(createPostsDto: CreatePostsDto): Promise<Posts>;
     readPosts(): Promise<void | (mongoose.Document<unknown, {}, Posts> & Posts & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v?: number;
     })[]>;
     findAll(query: any): Promise<Posts[]>;
+    findMyPosts(userId: string): Promise<Posts[]>;
     findById(id: string): Promise<Posts>;
     updatePosts(id: string, posts: Posts): Promise<Posts>;
     deletePosts(postsId: string): Promise<void>;

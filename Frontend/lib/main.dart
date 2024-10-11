@@ -18,12 +18,14 @@ import 'package:Sebawi/presentation/screens/user_home.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
-     ProviderScope(
+     const ProviderScope(
       child: MyApp(),
     ),
   );
 }
+
 
 final GoRouter _router = GoRouter(
   initialLocation: '/',
@@ -66,7 +68,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/volunteer_signup',
       name: "volunteer_signup",
-      builder: (context, state) => VolunteerSignup(),
+      builder: (context, state) => const VolunteerSignup(),
     ),
     GoRoute(
       path: '/agency_signup',

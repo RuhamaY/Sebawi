@@ -47,6 +47,9 @@ class RemoteService {
   Future<int?> addPost(post) async {
     SharedPreferenceService _sharedPrefService = SharedPreferenceService();
     String? token = await _sharedPrefService.readCache(key: "token");
+    if (kDebugMode) {
+      print(post);
+    }
     if (token == null) {
       return 401;
     }
@@ -58,6 +61,7 @@ class RemoteService {
           'Authorization': 'Bearer $token'
         },
         body: post);
+    print(response.body);
     final Map<String, dynamic> responseBody = jsonDecode(response.body);
     print(responseBody);
     return response.statusCode;

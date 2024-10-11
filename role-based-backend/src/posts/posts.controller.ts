@@ -14,14 +14,14 @@ export class PostsController {
   @Post()
   @UseGuards(AuthGuard('agency'))
   async createPosts(@Body() postsDto: CreatePostsDto, @Req() req): Promise<Posts> {
-    const user = req.user;
-  
-    const createdPost = await this.postsService.createPosts(postsDto, user);
-    createdPost.user = user._id;
-  
+    const createdPost = await this.postsService.createPosts(postsDto);
     return createdPost;
   }
 
+  @Get("myposts/:userId")
+  async getMyPosts(@Param('userId') userId: string): Promise<Posts[]> {
+    return this.postsService.findMyPosts(userId);
+  }
 
   @Get()
   async getAllPosts(@Query() query: any): Promise<Posts[]> {

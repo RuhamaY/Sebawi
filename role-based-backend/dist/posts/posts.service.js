@@ -20,11 +20,10 @@ let PostsService = class PostsService {
     constructor(postsModel) {
         this.postsModel = postsModel;
     }
-    async createPosts(createPostsDto, user) {
+    async createPosts(createPostsDto) {
         try {
             const newPosts = new this.postsModel({
                 ...createPostsDto,
-                user: user,
             });
             return await newPosts.save();
         }
@@ -40,6 +39,9 @@ let PostsService = class PostsService {
     async findAll(query) {
         const posts = await this.postsModel.find();
         return posts;
+    }
+    async findMyPosts(userId) {
+        return this.postsModel.find({ user: userId }).exec();
     }
     async findById(id) {
         const isValidID = mongoose_1.default.isValidObjectId(id);

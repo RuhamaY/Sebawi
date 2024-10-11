@@ -23,10 +23,11 @@ let PostsController = class PostsController {
         this.postsService = postsService;
     }
     async createPosts(postsDto, req) {
-        const user = req.user;
-        const createdPost = await this.postsService.createPosts(postsDto, user);
-        createdPost.user = user._id;
+        const createdPost = await this.postsService.createPosts(postsDto);
         return createdPost;
+    }
+    async getMyPosts(userId) {
+        return this.postsService.findMyPosts(userId);
     }
     async getAllPosts(query) {
         const posts = await this.postsService.findAll(query);
@@ -52,6 +53,13 @@ __decorate([
     __metadata("design:paramtypes", [create_posts_dto_1.CreatePostsDto, Object]),
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "createPosts", null);
+__decorate([
+    (0, common_1.Get)("myposts/:userId"),
+    __param(0, (0, common_1.Param)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "getMyPosts", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),

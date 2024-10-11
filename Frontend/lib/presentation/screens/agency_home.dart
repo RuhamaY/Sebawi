@@ -14,8 +14,6 @@ class AgencyHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncPosts = ref.watch(postsProvider);
-
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -185,7 +183,7 @@ class AgencyHomePage extends ConsumerWidget {
 }
 
 class AddPostForm extends ConsumerWidget {
-  const AddPostForm({Key? key}) : super(key: key);
+  const AddPostForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

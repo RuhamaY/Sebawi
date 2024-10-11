@@ -29,4 +29,9 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreatePostsDto.prototype, "contact", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreatePostsDto.prototype, "user", void 0);
 //# sourceMappingURL=create-posts.dto.js.map

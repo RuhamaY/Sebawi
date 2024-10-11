@@ -12,9 +12,11 @@ export class CreatePostsDto {
     @IsString()
     readonly description: string;
 
-    @IsNotEmpty() 
+    @IsNotEmpty()
     @IsString()
     readonly contact: string;
 
-   
+    @IsNotEmpty()
+    @IsString()
+    readonly user: string;
 }

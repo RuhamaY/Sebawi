@@ -12,7 +12,7 @@ export class CalendarsService {
     @InjectModel('calendars') private readonly calendarsModel: Model<Calendars>,
   ) { }
 
- async createEvent(createEventDto: CreateCalendarDto, postId: string, user: User): Promise<Calendars> {
+  async createEvent(createEventDto: CreateCalendarDto, postId: string, user: User): Promise<Calendars> {
     const createdEvent = new this.calendarsModel({
       ...createEventDto,
       post: postId,
@@ -24,7 +24,11 @@ export class CalendarsService {
   async findAllByUser(userId: string): Promise<Calendars[]> {
     return this.calendarsModel.find({ user: userId }).exec();
   }
-  
+
+  async findAllByPost(postId: string) {
+    return this.calendarsModel.find({ post: postId }).exec();
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} calendar`;
   }

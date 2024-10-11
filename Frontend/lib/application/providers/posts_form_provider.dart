@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:Sebawi/data/models/posts_model.dart';
-import 'package:Sebawi/data/services/api_path.dart'; // Import your API path file
 
 
 class PostFormState {

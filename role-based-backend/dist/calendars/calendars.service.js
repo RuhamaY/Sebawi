@@ -31,6 +31,9 @@ let CalendarsService = class CalendarsService {
     async findAllByUser(userId) {
         return this.calendarsModel.find({ user: userId }).exec();
     }
+    async findAllByPost(postId) {
+        return this.calendarsModel.find({ post: postId }).exec();
+    }
     findOne(id) {
         return `This action returns a #${id} calendar`;
     }

@@ -28,11 +28,10 @@ export class PostsService {
   ) { }
 
   //creating a posts
-  async createPosts(createPostsDto: CreatePostsDto, user: User): Promise<Posts> {
+  async createPosts(createPostsDto: CreatePostsDto): Promise<Posts> {
     try {
       const newPosts = new this.postsModel({
         ...createPostsDto,
-        user: user,
       });
       return await newPosts.save();
     } catch (error) {
@@ -55,6 +54,10 @@ export class PostsService {
 
 
     return posts;
+  }
+
+  async findMyPosts(userId: string): Promise<Posts[]> {
+    return this.postsModel.find({ user: userId }).exec();
   }
 
   //find posts by id

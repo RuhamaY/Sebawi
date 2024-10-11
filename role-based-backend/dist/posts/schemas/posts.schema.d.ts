@@ -24,12 +24,11 @@
 /// <reference types="mongoose/types/inferschematype" />
 /// <reference types="mongoose/types/inferrawdoctype" />
 import mongoose from "mongoose";
-import { User } from '../../user/schemas/user.schema';
 export declare class Posts {
     name: string;
     description: string;
     contact: string;
-    user: User;
+    user: string;
 }
 export declare const PostsSchema: mongoose.Schema<Posts, mongoose.Model<Posts, any, any, any, mongoose.Document<unknown, any, Posts> & Posts & {
     _id: mongoose.Types.ObjectId;

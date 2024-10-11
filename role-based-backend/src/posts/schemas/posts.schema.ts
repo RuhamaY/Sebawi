@@ -16,10 +16,10 @@ export class Posts {
     @Prop({ required: true })
     contact: string;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-    user: User;
+    @Prop({ required: true })
+    user: string;
 
-    
+
 }
 
 export const PostsSchema = SchemaFactory.createForClass(Posts)

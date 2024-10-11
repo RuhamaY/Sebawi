@@ -37,6 +37,7 @@ class AgencyProvider extends ChangeNotifier {
         _errorMessage = "Failed to add post";
       }
     } catch (e) {
+      print(e.toString());
       _errorMessage = e.toString();
     }
 
