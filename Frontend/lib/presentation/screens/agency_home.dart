@@ -1,6 +1,7 @@
 import 'package:Sebawi/application/providers/agency_provider.dart';
 import 'package:Sebawi/application/providers/posts_form_provider.dart';
 import 'package:Sebawi/data/models/posts_model.dart';
+import 'package:Sebawi/data/services/api_path.dart';
 import 'package:Sebawi/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,58 @@ class AgencyHomePage extends ConsumerWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          title: Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 8.0),
+            child: Text("Sebawi",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.green.shade800)),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, right: 16.0),
+              child: PopupMenuButton<String>(
+                onSelected: (value) {
+                  if (value == 'logout') {
+                    SharedPreferenceService sharedPrefService =
+                    SharedPreferenceService();
+                    sharedPrefService.writeCache(key: "token", value: "");
+                    context.go("/");
+                  } else if (value == 'update_profile') {
+                    context.go('/user_update');
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem<String>(
+                      value: 'update_profile',
+                      child: Row(
+                        children: [
+                          Icon(Icons.edit, color: Colors.green.shade800),
+                          const SizedBox(width: 8),
+                          const Text('Update Profile'),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'logout',
+                      child: Row(
+                        children: [
+                          Icon(Icons.logout, color: Colors.green.shade800),
+                          const SizedBox(width: 8),
+                          const Text('Logout'),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+                icon: const Icon(Icons.account_circle),
+                color: const Color.fromARGB(255, 255, 255, 255),
+                iconSize: 27,
+              ),
+            )
+          ],
           bottom: TabBar(
             tabs: [
               Tab(
@@ -57,128 +110,84 @@ class AgencyHomePage extends ConsumerWidget {
             unselectedLabelColor: const Color.fromARGB(255, 255, 255, 255),
             indicatorColor: const Color.fromARGB(255, 147, 176, 149),
           ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 16.0, left: 8.0),
-            child: Text("Sebawi",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.green.shade800)),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0, right: 16.0),
-              child: PopupMenuButton<String>(
-                onSelected: (value) {
-                  if (value == 'logout') {
-                    context.go('/login');
-                  } else if (value == 'update_profile') {
-                    context.go('/user_update');
-                  }
-                },
-                itemBuilder: (BuildContext context) {
-                  return [
-                    const PopupMenuItem<String>(
-                      value: 'update_profile',
-                      child: Row(
-                        children: [
-                          Icon(Icons.edit, color: Colors.white),
-                          SizedBox(width: 8),
-                          Text('Update Profile'),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuItem<String>(
-                      value: 'logout',
-                      child: Row(
-                        children: [
-                          Icon(Icons.logout, color: Colors.white),
-                          SizedBox(width: 8),
-                          Text('Logout'),
-                        ],
-                      ),
-                    ),
-                  ];
-                },
-                icon: const Icon(Icons.settings),
-                color: const Color.fromARGB(255, 124, 181, 127),
-                iconSize: 27,
-              ),
-            )
-          ],
         ),
         body: TabBarView(
-              children: [
-                Consumer(builder: (context, ref, child) {
-                  final asyncPosts = ref.watch(postsProvider);
-                  return asyncPosts.when(
-                    data: (posts) =>
-                        ListView.builder(
-                          itemCount: posts?.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
+          children: [
+            Consumer(
+              builder: (context, ref, child) {
+                final asyncPosts = ref.watch(postsProvider);
+                return asyncPosts.when(
+                  data: (posts) => ListView.builder(
+                    itemCount: posts?.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          PostItem(
+                            post: posts![index],
+                            isMyPost: false,
+                            onDelete: () {
+                              // No action for delete in "All Posts"
+                            },
+                          ),
+                          Divider(
+                            height: 10,
+                            thickness: 1,
+                            color: Colors.grey.shade200,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (err, stack) =>
+                      const Center(child: Text("Error loading posts")),
+                );
+              },
+            ),
+            Consumer(
+              builder: (context, ref, child) {
+                final asyncMyCalendars = ref.watch(myPostsProvider);
+                return asyncMyCalendars.when(
+                  data: (myPosts) => ListView.builder(
+                    itemCount: myPosts?.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                             context.go("/");
+                            },
+                            child:
                                 PostItem(
-                                  post: posts![index],
-                                  isMyPost: false,
+                                  post: myPosts![index],
+                                  isMyPost: true,
                                   onDelete: () {
-                                    // No action for delete in "All Posts"
+                                    // Add your delete logic here
                                   },
                                 ),
-                                Divider(
-                                  height: 10,
-                                  thickness: 1,
-                                  color: Colors.grey.shade200,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                    loading: () =>
-                    const Center(child: CircularProgressIndicator()),
-                    error: (err, stack) =>
-                    const Center(child: Text("Error loading posts")),
-                  );
-                },
-                ),
-                Consumer( builder: (context, ref, child){
-                  final asyncMyCalendars = ref.watch(myPostsProvider);
-                  return asyncMyCalendars.when(
-                    data:(myPosts) =>
-                ListView.builder(
-                  itemCount: myPosts?.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        PostItem(
-                          post: myPosts![index],
-                          isMyPost: true,
-                          onDelete: () {
-                            // Add your delete logic here
-                          },
-                        ),
-                        Divider(
-                          height: 10,
-                          thickness: 1,
-                          color: Colors.grey.shade200,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                    loading: () =>
-                    const Center(child: CircularProgressIndicator()),
-                    error: (err, stack) =>
-                    const Center(child: Text("Error loading Calendar")),
-                  );
-                },
-                ),
-                const AddPostForm(),
-              ],
+                          ),
+                          Divider(
+                            height: 10,
+                            thickness: 1,
+                            color: Colors.grey.shade200,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (err, stack) =>
+                      const Center(child: Text("Error loading Posts")),
+                );
+              },
             ),
-
+            const AddPostForm(),
+          ],
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -198,7 +207,13 @@ class AddPostForm extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Name'),
+              decoration:  InputDecoration(
+                  labelText: 'Name',
+                labelStyle: TextStyle(
+                  fontSize: 14, // Change the font size
+                  color: Colors.grey.shade600, // Change the font color
+                ),
+              ),
               onChanged: (value) => formNotifier.updateName(value),
               validator: (value) {
                 if (value!.isEmpty) {
@@ -208,7 +223,10 @@ class AddPostForm extends ConsumerWidget {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Description'),
+              decoration:  InputDecoration(labelText: 'Description',labelStyle: TextStyle(
+                fontSize: 14, // Change the font size
+                color: Colors.grey.shade600, // Change the font color
+              ),),
               onChanged: (value) => formNotifier.updateDescription(value),
               validator: (value) {
                 if (value!.isEmpty) {
@@ -218,7 +236,10 @@ class AddPostForm extends ConsumerWidget {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Contact'),
+              decoration:  InputDecoration(labelText: 'Contact',labelStyle: TextStyle(
+                fontSize: 14, // Change the font size
+                color: Colors.grey.shade600, // Change the font color
+              ),),
               onChanged: (value) => formNotifier.updateContact(value),
               validator: (value) {
                 if (value!.isEmpty) {
@@ -229,33 +250,29 @@ class AddPostForm extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             CustomButton(
-              buttonText: 'Post',
-              buttonColor: const Color.fromARGB(255, 255, 255, 255),
-              buttonTextColor: const Color.fromARGB(255, 33, 94, 35),
-              buttonAction:
-                   () async {
-                      final newPost = Post(
-                        name: formState.name,
-                        contact: formState.contact,
-                        description: formState.description
-                      );
-                      try {
-                        await agencyNotifier.addPost(newPost);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Post Created!"),
-                            duration: Duration(milliseconds: 1000),
-                          ),
-                        );
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content:
-                                  Text('Failed to add post: ${e.toString()}')),
-                        );
-                      }
-                    }
-            ),
+                buttonText: 'Post',
+                buttonColor: const Color.fromARGB(255, 255, 255, 255),
+                buttonTextColor: const Color.fromARGB(255, 33, 94, 35),
+                buttonAction: () async {
+                  final newPost = Post(
+                      name: formState.name,
+                      contact: formState.contact,
+                      description: formState.description);
+                  try {
+                    await agencyNotifier.addPost(newPost);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Post Created!"),
+                        duration: Duration(milliseconds: 1000),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Failed to add post: ${e.toString()}')),
+                    );
+                  }
+                }),
           ],
         ),
       ),
@@ -414,8 +431,7 @@ class PostItem extends StatelessWidget {
             ),
             TextButton(
               style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all(Colors.green.shade800),
+                backgroundColor: WidgetStateProperty.all(Colors.green.shade800),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20), // Border radius
