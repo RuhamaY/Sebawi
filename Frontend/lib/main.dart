@@ -1,3 +1,4 @@
+import 'package:Sebawi/presentation/screens/post_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:Sebawi/presentation/screens/admin_login.dart';
@@ -12,9 +13,6 @@ import 'package:Sebawi/presentation/screens/user_update.dart';
 import 'package:Sebawi/presentation/screens/volunteer_signup.dart';
 import 'package:Sebawi/presentation/screens/home_page.dart';
 import 'package:Sebawi/presentation/screens/user_home.dart';
-// import 'package:Sebawi/application/providers/user_update_provider.dart';
-// import 'package:Sebawi/application/providers/agency_update_provider.dart';
-// import 'package:Sebawi/application/providers/agency_provider.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
@@ -95,6 +93,15 @@ final GoRouter _router = GoRouter(
       name: "admin_page",
       builder: (context, state) => const AdminPage(),
     ),
+    GoRoute(
+      path: '/post_details',
+      name: 'post_details',
+      builder: (context, state)
+       {
+         final String postId = GoRouterState.of(context).pathParameters['postId'].toString();
+         return PostDetailsPage(postId: postId);
+       }
+    ),
   ],
   errorBuilder: (context, state) {
     return Scaffold(
@@ -138,7 +145,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
         ).copyWith(
           secondary: Colors.green[800],
-          surface: Color.fromARGB(255, 69, 160, 79),
+          surface: const Color.fromARGB(255, 69, 160, 79),
         ),
         scaffoldBackgroundColor: Colors.white,
         elevatedButtonTheme: ElevatedButtonThemeData(

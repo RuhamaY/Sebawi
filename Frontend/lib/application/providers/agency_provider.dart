@@ -6,7 +6,7 @@ import 'package:Sebawi/data/services/api_path.dart';
 import 'package:Sebawi/data/models/posts_model.dart'; 
 
 class AgencyProvider extends ChangeNotifier {
-  List<Post> _posts = [];
+  final List<Post> _posts = [];
   bool _isLoading = false;
   String? _errorMessage;
   final RemoteService _remoteService = RemoteService();

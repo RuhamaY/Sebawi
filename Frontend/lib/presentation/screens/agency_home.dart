@@ -6,6 +6,7 @@ import 'package:Sebawi/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 
 import '../../application/providers/myPosts_provider.dart';
 import '../../application/providers/posts_provider.dart';
@@ -156,7 +157,8 @@ class AgencyHomePage extends ConsumerWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                             context.go("/");
+                              final String? postId = myPosts[index].id;
+                                GoRouter.of(context).go('/post_details/$postId');
                             },
                             child:
                                 PostItem(

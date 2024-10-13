@@ -259,6 +259,20 @@ class RemoteService {
     }
   }
 
+  Future<Post?> getPost(id) async {
+    var client = http.Client();
+    String url = 'http://10.0.2.2:3000/posts/$id';
+    var uri = Uri.parse(url);
+    final response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return Post.fromJson(jsonDecode(jsonString));
+    } else {
+      return (null);
+    }
+
+  }
+
   Future<int> editPost(id, post) async {
     var client = http.Client();
     var uri = Uri.parse('http://10.0.2.2:3000/posts/$id');
