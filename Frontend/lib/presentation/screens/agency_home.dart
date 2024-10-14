@@ -158,7 +158,7 @@ class AgencyHomePage extends ConsumerWidget {
                           GestureDetector(
                             onTap: () {
                               final String? postId = myPosts[index].id;
-                                GoRouter.of(context).go('/post_details/$postId');
+                              context.go('/post_details/$postId');
                             },
                             child:
                                 PostItem(

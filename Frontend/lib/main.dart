@@ -27,6 +27,7 @@ void main() {
 
 final GoRouter _router = GoRouter(
   initialLocation: '/',
+  debugLogDiagnostics: true,
   routes: [
     GoRoute(
       path: '/',
@@ -94,13 +95,12 @@ final GoRouter _router = GoRouter(
       builder: (context, state) => const AdminPage(),
     ),
     GoRoute(
-      path: '/post_details',
+      path: '/post_details/:postId',  // Update to accept a dynamic postId
       name: 'post_details',
-      builder: (context, state)
-       {
-         final String postId = GoRouterState.of(context).pathParameters['postId'].toString();
-         return PostDetailsPage(postId: postId);
-       }
+      builder: (context, state) {
+        final String postId = state.pathParameters['postId']!; // Extract the postId
+        return PostDetailsPage(postId: postId);
+      },
     ),
   ],
   errorBuilder: (context, state) {

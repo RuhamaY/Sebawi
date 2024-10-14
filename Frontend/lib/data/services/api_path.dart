@@ -265,8 +265,9 @@ class RemoteService {
     var uri = Uri.parse(url);
     final response = await client.get(uri);
     if (response.statusCode == 200) {
-      var jsonString = response.body;
-      return Post.fromJson(jsonDecode(jsonString));
+      var jsonBody = json.decode(response.body);
+      print(jsonBody);
+      return Post.fromJson(jsonBody);
     } else {
       return (null);
     }
