@@ -11,60 +11,75 @@ class PostDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body:
-          Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 200.0,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/4.jpg"),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
+      body: Consumer(
+        builder: (context, ref, child) {
+          final postAsyncValue = ref.watch(postDetailProvider(postId));
+          return postAsyncValue.when(
+            data: (post) {
+              return Center(
+                child: Column(
+                  children: [
+                    AppBar(
+                      backgroundColor: Colors.transparent,
+                      leading: IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          context.go("/agency_home");
+                        },
+                      ),
+                      title: Text(
+                        post!.name,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26),
                       ),
                     ),
-                  ),
-                  SafeArea(
-                    child: SizedBox(
-                      child: AppBar(
-                        backgroundColor: Colors.transparent,
-                        leading: IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-                            context.go("/agency_home");
-                          },
-                        ),
-                        title: const Text('Post Details'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Consumer(
-                builder: (context, ref, child) {
-                  final postAsyncValue = ref.watch(postDetailProvider(postId));
-                  return postAsyncValue.when(
-                    data: (post) {
-                      return Column(
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Column(
                         children: [
-                          Text(post!.name,
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w600)),
-                          Text(post.description),
-                          Text(post.contact),
-                        ],
-                      );
-                    },
-                    loading: () => const CircularProgressIndicator(),
-                    error: (error, stack) => Text('Error: $error'),
-                  );
-                },
-              ),
-            ],
-          ),
 
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            // Sets the border radius
+                            child: Image.asset(
+                              "assets/images/4.jpg",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.phone, color: Colors.green.shade800,),
+                                Text(post.contact)
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                              child: Text(
+                                post.description,
+                                style: TextStyle(fontSize: 17, color: Colors.grey.shade700, fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            loading: () => const CircularProgressIndicator(),
+            error: (error, stack) => Text('Error: $error'),
+          );
+        },
+      ),
     );
   }
 }

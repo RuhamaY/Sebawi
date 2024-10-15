@@ -339,15 +339,20 @@ class PostItem extends StatelessWidget {
                   Icon(Icons.medical_services,
                       size: 14, color: Colors.green.shade800),
                   const Center(
-                    child: Text(
-                      " Service Type: ",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    child:   Padding(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+                      child: Text(
+                        " Service Type",
+                        style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                  Text(post.description),
                 ],
               ),
+             Text(post.description),
+
+
               if (isMyPost)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
