@@ -1,6 +1,7 @@
 import 'package:Sebawi/application/providers/home_provider.dart';
 import 'package:Sebawi/data/models/calendars.dart';
 import 'package:Sebawi/data/models/posts_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +17,7 @@ class UserHomePage extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             title: Padding(
@@ -74,16 +75,15 @@ class UserHomePage extends ConsumerWidget {
             bottom: TabBar(
               tabs: const [
                 Tab(
-                  child: Column(
-                    children: [
-                      Icon(Icons.list),
-                      Text(
+                    child: Column(
+                  children: [
+                    Icon(Icons.list),
+                    Text(
                       "Posts",
                       style: TextStyle(fontWeight: FontWeight.bold),
-                    ),],
-                  )
-
-                ),
+                    ),
+                  ],
+                )),
                 Tab(
                     child: Column(
                   children: [
@@ -94,6 +94,17 @@ class UserHomePage extends ConsumerWidget {
                     ),
                   ],
                 )),
+                Tab(
+                  child: Column(
+                    children: [
+                      Icon(Icons.search),
+                      Text(
+                        "Search",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                )
               ],
               onTap: (index) {
                 if (index == 1) {
@@ -119,9 +130,15 @@ class UserHomePage extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            PostItem(
-                              post: posts![index],
-                              isMyPost: true,
+                            GestureDetector(
+                              onTap: () {
+                                final String? postId = posts[index].id;
+                                context.go('/post_details/$postId');
+                              },
+                              child: PostItem(
+                                post: posts![index],
+                                isMyPost: true,
+                              ),
                             ),
                             Divider(
                               height: 10,
@@ -167,7 +184,94 @@ class UserHomePage extends ConsumerWidget {
                   );
                 },
               ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: const UnderlineInputBorder(),
+                              hintText: 'Find Opportunities',
+                              hintStyle: const TextStyle(fontSize: 15),
+                              prefixIcon: const Icon(Icons.search, size: 18),
+                              prefixIconColor: Colors.grey.shade600,
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                            ),
+                          ),
+                        ),
+                        const Icon(Icons.filter_list_rounded),
+                        // Example of adding an icon
+                      ],
+                    ),
+                  ),
+
+                  // Wrapping GridView in Expanded so it has a bounded height
+                  Expanded(
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        final asyncPosts = ref.watch(postsProvider);
+                        return asyncPosts.when(
+                          data: (posts) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                              child: GridView.count(
+                                crossAxisCount: 2,
+                                // crossAxisSpacing: 10,
+                                // mainAxisSpacing: 10,
+                                // padding: const EdgeInsets.all(10),
+                                children: List.generate(posts!.length, (index) {
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width * 0.48,
+                                          height: 80,
+                                          decoration:  BoxDecoration(
+                                        image: const DecorationImage(
+                                          image:
+                                              AssetImage('assets/images/4.jpg'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                            borderRadius: BorderRadius.circular(20)
+                                      ))
+                                    ],
+                                  );
+                                }),
+                              ),
+                            );
+                          },
+                          error: (err, stack) =>
+                              const Center(child: Text("Error loading posts")),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              )
             ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                label: 'Add Post',
+              ),
+            ],
+            onTap: (index) {
+              if (index == 1) {
+                context.go('/add_post');
+              }
+            },
           ),
         ),
       ),
@@ -357,14 +461,14 @@ class PostItem extends ConsumerWidget {
                       size: 14, color: Colors.green.shade800),
                   const Center(
                     child: Text(
-                      " Service Type: ",
+                      " Service Type",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text(post.description),
                 ],
               ),
+              Text(post.description),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: Row(

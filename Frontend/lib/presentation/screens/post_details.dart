@@ -24,7 +24,7 @@ class PostDetailsPage extends ConsumerWidget {
                       leading: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         onPressed: () {
-                          context.go("/agency_home");
+                          context.go("/user_home");
                         },
                       ),
                       title: Text(
