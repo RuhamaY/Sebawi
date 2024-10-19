@@ -184,64 +184,227 @@ class UserHomePage extends ConsumerWidget {
                   );
                 },
               ),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: const UnderlineInputBorder(),
-                              hintText: 'Find Opportunities',
-                              hintStyle: const TextStyle(fontSize: 15),
-                              prefixIcon: const Icon(Icons.search, size: 18),
-                              prefixIconColor: Colors.grey.shade600,
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(0, 12, 0, 0),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(20.0, 0, 20, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                border: UnderlineInputBorder(),
+                                hintText: 'Find Opportunities',
+                                hintStyle: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w600),
+                                prefixIcon: Icon(Icons.search, size: 18),
+                                prefixIconColor: Colors.grey,
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(0, 12, 0, 0),
+                              ),
                             ),
                           ),
-                        ),
-                        const Icon(Icons.filter_list_rounded),
-                        // Example of adding an icon
-                      ],
+                          Icon(Icons.filter_list_rounded, color: Colors.grey),
+                          // Example of adding an icon
+                        ],
+                      ),
                     ),
-                  ),
-
-                  // Wrapping GridView in Expanded so it has a bounded height
-                  Expanded(
-                    child: Consumer(
+                    Consumer(
                       builder: (context, ref, child) {
                         final asyncPosts = ref.watch(postsProvider);
                         return asyncPosts.when(
                           data: (posts) {
-                            return Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                              child: GridView.count(
-                                crossAxisCount: 2,
-                                // crossAxisSpacing: 10,
-                                // mainAxisSpacing: 10,
-                                // padding: const EdgeInsets.all(10),
-                                children: List.generate(posts!.length, (index) {
-                                  return Column(
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context).size.width * 0.48,
-                                          height: 80,
-                                          decoration:  BoxDecoration(
-                                        image: const DecorationImage(
-                                          image:
-                                              AssetImage('assets/images/4.jpg'),
-                                          fit: BoxFit.cover,
-                                        ),
-                                            borderRadius: BorderRadius.circular(20)
-                                      ))
-                                    ],
-                                  );
-                                }),
-                              ),
+                            int numOfRows = 6;
+                            double itemHeight =
+                                ((MediaQuery.of(context).size.width - 40) / 2) /
+                                    2.5;
+                            double gridHeight = (itemHeight * (numOfRows / 2)) +
+                                (5 * ((numOfRows / 2) - 1)) +
+                                20;
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                  child: SizedBox(
+                                    height: gridHeight,
+                                    child: GridView.count(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10,
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 5, 15, 0),
+                                      childAspectRatio: 2.5,
+                                      children: List.generate(
+                                          posts!.length > numOfRows
+                                              ? numOfRows
+                                              : posts.length, (index) {
+                                        return Stack(
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                // Background image
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    image:
+                                                        const DecorationImage(
+                                                      image: AssetImage(
+                                                          'assets/images/4.jpg'),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                  ),
+                                                ),
+
+                                                // Dark overlay
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black
+                                                        .withOpacity(0.2),
+                                                    // Adjust opacity to darken
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                  ),
+                                                ),
+                                                // Content on top of the image and overlay
+                                                Center(
+                                                  child: Text(
+                                                    posts[index].name,
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        );
+                                      }),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: const Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      // Align text to the right
+                                      child: Text(
+                                        "more",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight
+                                                .bold), // Align the text within the container
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                                    child: Text(
+                                      "Popular on Sebawi",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 20, 20, 20),
+                                    child: Card(
+                                      elevation: 4,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(
+                                                    15),
+                                              ),
+                                              child: Image.asset(
+                                                  'assets/images/5.jpg')),
+                                           Padding(
+                                            padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
+                                            child: Column(
+                                              children: [
+                                                const Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(
+                                                    'Community Garden Volunteering',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w800
+                                                    ),textAlign: TextAlign.left,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 2),
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons.location_on_rounded, size: 14, color: Colors.grey.shade600),
+                                                    const SizedBox(width: 5),
+                                                    Text(
+                                                      "Mt. Entoto",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w600, color: Colors.grey.shade700),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text("Wed, 15th July - 9:30 am",  style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w600, color: Colors.grey.shade700),),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(Icons.home, size: 14, color: Colors.grey.shade700),
+                                                          const SizedBox(width: 5),
+                                                          Text(
+                                                            "Treehearts Foundation",
+                                                            style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w600, color: Colors.grey.shade600),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Icon(Icons.add_circle_outline_rounded, color: Colors.grey.shade700,)
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ))
+                              ],
                             );
                           },
                           error: (err, stack) =>
@@ -251,8 +414,8 @@ class UserHomePage extends ConsumerWidget {
                         );
                       },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
@@ -276,6 +439,7 @@ class UserHomePage extends ConsumerWidget {
         ),
       ),
       theme: ThemeData(
+        fontFamily: "FigTree",
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade800),
       ),
     );
@@ -322,7 +486,7 @@ class CalendarItem extends ConsumerWidget {
                       child: Text(
                         " Service Type: ",
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.w600),
                       ),
                     ),
                     Text(calendar.description),
@@ -433,7 +597,7 @@ class PostItem extends ConsumerWidget {
           title: Padding(
             padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
             child: Text(
-              post.name,
+              "${post.name[0].toUpperCase()}${post.name.substring(1).toLowerCase()}",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
@@ -487,7 +651,7 @@ class PostItem extends ConsumerWidget {
                           ),
                         ),
                         child: const Text(
-                          'Sign Me Up!',
+                          'Sign Me Up',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.white),
                         ),

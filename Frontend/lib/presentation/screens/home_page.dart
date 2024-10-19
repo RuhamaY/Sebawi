@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
       theme: ThemeData(
-        // fontFamily: 'Roboto',
+        fontFamily: "FigTree",
         textTheme: const TextTheme(
           bodyLarge: TextStyle(fontSize: 20),
           bodyMedium: TextStyle(fontSize: 18),

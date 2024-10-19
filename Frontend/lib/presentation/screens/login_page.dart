@@ -140,15 +140,15 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
+                              WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                              if (states.contains(WidgetState.pressed)) {
                                 return Colors.green.shade800;
                               }
                               return Colors.lightGreen;
                             },
                           ),
-                          textStyle: MaterialStateProperty.all<TextStyle>(
+                          textStyle: WidgetStateProperty.all<TextStyle>(
                             const TextStyle(
                               fontSize: 15,
                               shadows: [

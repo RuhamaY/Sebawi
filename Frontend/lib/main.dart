@@ -14,7 +14,6 @@ import 'package:Sebawi/presentation/screens/volunteer_signup.dart';
 import 'package:Sebawi/presentation/screens/home_page.dart';
 import 'package:Sebawi/presentation/screens/user_home.dart';
 import 'package:go_router/go_router.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
@@ -141,6 +140,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sebawi',
       theme: ThemeData(
+        fontFamily: "FigTree",
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.green,
         ).copyWith(

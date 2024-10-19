@@ -40,6 +40,7 @@ dependencies:
   intl: ^0.19.0
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -85,10 +86,22 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Roboto
+    - family: Figtree
       fonts:
-        - asset: fonts/Roboto-Regular.ttf
-        - asset: fonts/Roboto-Bold.ttf
+        - asset: fonts/Figtree-Regular.ttf
+        - asset: fonts/Figtree-Bold.ttf
+        - asset: fonts/Figtree-Italic.ttf
+        - asset: fonts/Figtree-BoldItalic.ttf
+        - asset: fonts/Figtree-Light.ttf
+        - asset: fonts/Figtree-LightItalic.ttf
+        - asset: fonts/Figtree-Medium.ttf
+        - asset: fonts/Figtree-MediumItalic.ttf
+        - asset: fonts/Figtree-SemiBold.ttf
+        - asset: fonts/Figtree-SemiBoldItalic.ttf
+        - asset: fonts/Figtree-Black.ttf
+        - asset: fonts/Figtree-BlackItalic.ttf
+        - asset: fonts/Figtree-ExtraBold.ttf
+        - asset: fonts/Figtree-ExtraBoldItalic.ttf
           weight: 700
 
   #   - family: Trajan Pro
