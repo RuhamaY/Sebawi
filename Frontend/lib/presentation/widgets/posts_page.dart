@@ -42,16 +42,20 @@ class PostsPage extends ConsumerWidget {
                 child: Card(
                   color: Colors.green.shade100,
                   margin: const EdgeInsets.fromLTRB(20, 30, 20, 30),
-                  child: Column(
+                  child: Stack(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(Icons.notifications_none,
-                                color: Colors.green.shade900)
-                          ],
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(Icons.notifications_none,
+                                  color: Colors.green.shade900)
+                            ],
+                          ),
                         ),
                       ),
                       Row(
@@ -64,9 +68,10 @@ class PostsPage extends ConsumerWidget {
                             children: [
                               asyncUser.when(
                                   data: (user) => Text(
-                                        "Hi, ${user!.split(" ")[0]} ",
+                                        "Hey, ${user!.split(" ")[0]}! ",
                                         style: TextStyle(
-                                          fontSize: 30,
+                                          fontSize: 38,
+                                          fontFamily:"Lindsey",
                                           fontWeight: FontWeight.w800,
                                           color: Colors.green.shade800,
                                         ),
@@ -82,7 +87,7 @@ class PostsPage extends ConsumerWidget {
                                   "Let's see who needs your help today :)",
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     color: Colors.green.shade800,
                                   ),
                                 ),

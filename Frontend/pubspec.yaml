@@ -106,7 +106,9 @@ flutter:
         - asset: fonts/Figtree-ExtraBold.ttf
         - asset: fonts/Figtree-ExtraBoldItalic.ttf
           weight: 700
-
+    - family: Lindsey
+      fonts:
+        - asset: fonts/Lindsey-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
