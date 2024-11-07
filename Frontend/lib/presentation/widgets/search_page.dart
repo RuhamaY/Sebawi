@@ -84,7 +84,6 @@ class SearchPage extends ConsumerWidget {
                                               25),
                                         ),
                                       ),
-
                                       // Dark overlay
                                       Container(
                                         decoration: BoxDecoration(

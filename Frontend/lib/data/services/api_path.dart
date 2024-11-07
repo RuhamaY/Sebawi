@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -96,6 +97,8 @@ class RemoteService {
       return {'message': responseBody['message'] ?? 'Failed to log in'};
     }
   }
+
+
 
   Future<String?>? addToCalendar(String date, String id) async {
     SharedPreferenceService _sharedPrefService = SharedPreferenceService();
@@ -270,7 +273,27 @@ class RemoteService {
     } else {
       return (null);
     }
+  }
 
+  Future<String?> getUser() async {
+    print("Trying to fetch user");
+    SharedPreferenceService _sharedPrefService = SharedPreferenceService();
+    String? id = await _sharedPrefService.readCache(key: "uId");
+    print(id);
+    if (id == null) {
+      return null;
+    }
+    var client = http.Client();
+    String url = 'http://10.0.2.2:3000/user/$id';
+    var uri = Uri.parse(url);
+    final response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonBody = json.decode(response.body);
+      print(jsonBody);
+      return jsonBody['name'];
+    } else {
+      return (null);
+    }
   }
 
   Future<int> editPost(id, post) async {
