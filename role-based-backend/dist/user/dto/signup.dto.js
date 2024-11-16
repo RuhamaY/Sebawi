@@ -9,7 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SignUpDto = exports.IsUnique = exports.IsUniqueConstraint = void 0;
+exports.SignUpDto = exports.IsUniqueConstraint = void 0;
+exports.IsUnique = IsUnique;
 const class_validator_1 = require("class-validator");
 const user_service_1 = require("../user.service");
 const common_1 = require("@nestjs/common");
@@ -44,7 +45,6 @@ function IsUnique(validationOptions) {
         });
     };
 }
-exports.IsUnique = IsUnique;
 class SignUpDto {
 }
 exports.SignUpDto = SignUpDto;
