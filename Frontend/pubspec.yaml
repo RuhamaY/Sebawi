@@ -76,6 +76,9 @@ flutter:
     - assets/images/icons/filter.png
     - assets/images/icons/house.png
     - assets/images/icons/volunteer.png
+    - assets/images/icons/fire.png
+    - assets/images/icons/check.png
+    - assets/images/icons/favorites.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -152,8 +152,8 @@ class ProfilePage extends ConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.local_fire_department,
+                                          ImageIcon(
+                                            AssetImage("assets/images/icons/fire.png"),
                                             color: Color(0xFF92DA8A),
                                             size: 30,
                                           ),
@@ -263,11 +263,11 @@ class ProfilePage extends ConsumerWidget {
                             Colors.purple.shade300,
                           ];
                           final icons = [
-                            // ImageIcon(
-                            //     AssetImage("assets/images/icons/volunteer.png")),
-                            Icons.elderly,
-                            Icons.child_friendly_rounded,
-                            Icons.pets,
+                            ImageIcon(
+                                AssetImage("assets/images/icons/volunteer.png"), color: Colors.white,),
+                            // Icons.elderly,
+                            // Icons.child_friendly_rounded,
+                            Icon(Icons.pets, color: Colors.white,),
                           ];
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -295,11 +295,9 @@ class ProfilePage extends ConsumerWidget {
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             10, 0, 10, 0),
-                                        child: Icon(
+                                        child:
                                           icons[index % icons.length],
-                                          color: Colors.white,
                                         ),
-                                      ),
                                       Flexible(
                                         child: Text(
                                           "${causes[index][0].toUpperCase()}${causes[index].substring(1).toLowerCase()}",
@@ -431,7 +429,12 @@ class ProfilePage extends ConsumerWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.star, color: Colors.grey.shade700,),
+                            ImageIcon(
+                              const AssetImage("assets/images/icons/favorites.png"),
+                              size: 25,
+                              color: Colors.grey.shade700,
+                            ),
+
                             const SizedBox(
                               width: 5,
                             ),
@@ -451,10 +454,10 @@ class ProfilePage extends ConsumerWidget {
                                 SizedBox(
                                   width: 25,
                                 ),
-                                Icon(
-                                Icons.check_circle_outline_rounded,
-                                color: Color(0xFF92DA8A),
-                              ),
+                                ImageIcon(
+                                  AssetImage("assets/images/icons/check.png"),
+                                  color: Color(0xFF92DA8A),
+                                ),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -469,8 +472,8 @@ class ProfilePage extends ConsumerWidget {
                                 SizedBox(
                                   width: 25,
                                 ),
-                                Icon(
-                                  Icons.check_circle_outline_rounded,
+                                ImageIcon(
+                                  AssetImage("assets/images/icons/check.png"),
                                   color: Color(0xFF92DA8A),
                                 ),
                                 SizedBox(
@@ -487,9 +490,9 @@ class ProfilePage extends ConsumerWidget {
                                 SizedBox(
                                   width: 25,
                                 ),
-                                Icon(
-                                  Icons.check_circle_outline_rounded,
-                                  color: Color(0xFF92DA8A),
+                                ImageIcon(
+                                  AssetImage("assets/images/icons/check.png"),
+                                    color: Color(0xFF92DA8A),
                                 ),
                                 SizedBox(
                                   width: 10,

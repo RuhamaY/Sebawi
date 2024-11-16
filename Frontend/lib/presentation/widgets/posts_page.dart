@@ -62,46 +62,56 @@ class PostsPage extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              asyncUser.when(
-                                  data: (user) => Text(
-                                        "Hey, ${user!.split(" ")[0]}! ",
-                                        style: TextStyle(
-                                          fontSize: 38,
-                                          fontFamily:"Lindsey",
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.green.shade800,
-                                        ),
+                          // First half for text
+                          Expanded(
+                            flex: 1, // Equal division (50%)
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                asyncUser.when(
+                                  data: (user) => Center(
+                                    child: Text(
+                                      "Hey, ${user!.split(" ")[0]}! ",
+                                      style: TextStyle(
+                                        fontSize: 28,
+                                        fontFamily: "Lindsey",
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.green.shade800,
                                       ),
-                                  loading: () =>
-                                      (const CircularProgressIndicator()),
-                                  error: (err, stack) =>
-                                      const Text("Error loading user")),
-                              const SizedBox(height: 8),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Text(
-                                  "Let's see who needs your help today :)",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.green.shade800,
+                                    ),
+                                  ),
+                                  loading: () => const CircularProgressIndicator(),
+                                  error: (err, stack) => const Text("Error loading user"),
+                                ),
+                                const SizedBox(height: 8),
+                                Center(
+                                  child: Text(
+                                    "Let's see who needs \n your help today :)",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.green.shade800,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          ImageIcon(
-                            const AssetImage(
-                                "assets/images/icons/volunteer.png"),
-                            color: Colors.green.shade900,
-                            size: 80,
+                          // Second half for the image
+                          Expanded(
+                            flex: 1, // Equal division (50%)
+                            child: Container(
+                              alignment: Alignment.centerRight, // Align image to the right if needed
+                              child: Image.asset(
+                                "assets/images/fire.png",
+                                fit: BoxFit.contain, // Scale the image to fit the space
+                              ),
+                            ),
                           ),
                         ],
-                      ),
+                      )
+
                     ],
                   ),
                 ),
@@ -150,11 +160,10 @@ class PostsPage extends ConsumerWidget {
                               Colors.purple.shade300,
                             ];
                             final icons = [
-                              // ImageIcon(
-                              //     AssetImage("assets/images/icons/volunteer.png")),
-                              Icons.elderly,
-                              Icons.child_friendly_rounded,
-                              Icons.pets,
+                              ImageIcon(AssetImage("assets/images/icons/volunteer.png"), color: Colors.white,),
+                              Icon(Icons.child_friendly_rounded, color: Colors.white,),
+                              Icon(Icons.elderly, color: Colors.white,),
+                              Icon(Icons.pets, color: Colors.white,),
                             ];
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -187,10 +196,8 @@ class PostsPage extends ConsumerWidget {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               10, 0, 10, 0),
-                                          child: Icon(
+                                          child:
                                             icons[index % icons.length],
-                                            color: Colors.white,
-                                          ),
                                         ),
                                         Flexible(
                                           child: Text(
@@ -278,7 +285,7 @@ class PostItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeNotifier = ref.read(homeProvider);
+    // final homeNotifier = ref.read(homeProvider);
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
         child: Card(
