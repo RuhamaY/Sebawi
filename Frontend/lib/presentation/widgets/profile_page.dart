@@ -173,10 +173,10 @@ class ProfilePage extends ConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Icon(
-                                            Icons.sticky_note_2,
+                                          ImageIcon(
+                                            AssetImage("assets/images/icons/certificates.png"),
                                             color: Color(0xFF92DA8A),
-                                            size: 30,
+                                            size: 25,
                                           ),
                                           Column(
                                             children: [
